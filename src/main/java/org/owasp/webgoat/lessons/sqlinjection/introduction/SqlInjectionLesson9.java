@@ -80,9 +80,9 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
         //     output.append(SqlInjectionLesson8.generateTable(results));
         //   } else {
         //     // no results
-            return failed(this).feedback("sql-injection.8.no.results").build();
+        return failed(this).feedback("sql-injection.8.no.results").build();
           // }
-        }
+        // }
       } catch (SQLException e) {
         System.err.println(e.getMessage());
         return failed(this)
