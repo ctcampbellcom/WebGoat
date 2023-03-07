@@ -32,6 +32,7 @@ src/main/webapp/users/*.props
 classes/*
 *.iml
 pom.xml.versionsBackup
+codeql-db/
 
 /*.iml
 .extract/*
@@ -57,3 +58,4 @@ TestClass.class
 /.gitconfig
 
 webgoat.gitconfig
+codeql-results.sarif

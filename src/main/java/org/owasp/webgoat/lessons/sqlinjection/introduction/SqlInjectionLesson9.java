@@ -90,7 +90,7 @@ public class SqlInjectionLesson9 extends AssignmentEndpoint {
             .build();
       }
 
-      return checkSalaryRanking(connection, output);
+      // return checkSalaryRanking(connection, output);
 
     } catch (Exception e) {
       System.err.println(e.getMessage());
