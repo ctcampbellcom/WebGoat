@@ -1,6 +1,7 @@
 name: "CodeQL"
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "**" ]
   pull_request:
@@ -29,33 +30,28 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup JDK 17
       if: matrix.language == 'java'
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
         java-version: '17'
         cache: 'maven'
 
-    - name: Delombok
-      if: matrix.language == 'java'
-      uses: ctcampbellcom/delombok@v1.0
-
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
         queries: +security-extended
-        debug: true
 
     - name: Build with Maven
       if: matrix.language == 'java'
       run: mvn clean package -B -DskipTests
 
     - name: Perform CodeQL analysis
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{matrix.language}}"
         upload: false
@@ -70,8 +66,13 @@ jobs:
         input: sarif-results/${{matrix.language}}.sarif
         output: sarif-results/${{matrix.language}}.sarif
 
+    - name: Tag OWASP Top Ten 2021
+      uses: advanced-security/codeql-sarif-security-standard-annotator@v1
+      with:
+        sarifFile: sarif-results/${{matrix.language}}.sarif
+
     - name: Upload SARIF
-      uses: github/codeql-action/upload-sarif@v2
+      uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: sarif-results/${{matrix.language}}.sarif
 
